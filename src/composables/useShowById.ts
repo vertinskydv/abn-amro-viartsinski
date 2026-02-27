@@ -1,17 +1,23 @@
 import { computed, onMounted, ref } from 'vue';
 import { getShowsById } from '../api/shows';
 import { useDashboardShowsStore } from '../stores/useDashboardShowsStore';
+import { useSearchShowsStore } from '../stores/useSearchShowsStore';
 import type { Show } from '../types/entities/Show';
 import { logger } from '../utils/logger.ts';
 
 export const useShowById = (id: string) => {
-  const showsStore = useDashboardShowsStore();
+  const dashboardShowsStore = useDashboardShowsStore();
+  const searchShowsStore = useSearchShowsStore();
   const localShow = ref<Show | null>(null);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
   const show = computed<Show | null>(() => {
-    return showsStore.getById(id) ?? localShow.value;
+    return (
+      dashboardShowsStore.getById(id) ??
+      searchShowsStore.getById(id) ??
+      localShow.value
+    );
   });
 
   const fetchShow = async (id: string) => {

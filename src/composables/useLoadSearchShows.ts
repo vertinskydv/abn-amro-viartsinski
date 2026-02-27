@@ -39,5 +39,5 @@ export const useLoadSearchShows = (nameRef: Ref<string>) => {
     { immediate: true },
   );
 
-  return { shows, isLoading, error, loadShows };
+  return { shows, isLoading, error };
 };

@@ -28,7 +28,7 @@ function preloadImage(url: string | undefined) {
     <div
       :class="[
         orientation === 'vertical'
-          ? 'overflow-y-auto scrollbar-hide'
+          ? 'overflow-y-auto'
           : 'overflow-x-auto scrollbar-hide',
       ]"
     >

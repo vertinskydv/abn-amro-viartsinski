@@ -34,5 +34,3 @@ defineProps<{ show: Show }>();
     </div>
   </div>
 </template>
-
-<style scoped></style>

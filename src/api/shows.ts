@@ -2,7 +2,9 @@ import axios, { type AxiosResponse } from 'axios';
 import type { ShowDto } from '../types/api/ShowDto';
 import type { Show } from '../types/entities/Show';
 
-const mapShow = ({
+const BASE_URL = 'https://api.tvmaze.com';
+
+const showMapper = ({
   id,
   name,
   genres,
@@ -24,25 +26,25 @@ const mapShow = ({
 
 export async function getShows(): Promise<Show[]> {
   const response = await axios.get<void, AxiosResponse<ShowDto[]>>(
-    'https://api.tvmaze.com/shows',
+    `${BASE_URL}/shows`,
   );
-  return response.data.map(mapShow);
+  return response.data.map(showMapper);
 }
 
 export async function getShowsById(id: string): Promise<Show> {
   const response = await axios.get<void, AxiosResponse<ShowDto>>(
-    `https://api.tvmaze.com/shows/${id}`,
+    `${BASE_URL}/shows/${id}`,
   );
-  return mapShow(response.data);
+  return showMapper(response.data);
 }
 
 export async function getShowsByName(name: string): Promise<Show[]> {
   const response = await axios.get<
     void,
     AxiosResponse<Array<{ score: number; show: ShowDto[] }>>
-  >(`https://api.tvmaze.com/search/shows?q=${name.trim()}`);
+  >(`${BASE_URL}/search/shows?q=${name.trim()}`);
   return response.data
     .sort((a, b) => b.score - a.score)
     .flatMap(({ show }) => show)
-    .map(mapShow);
+    .map(showMapper);
 }
