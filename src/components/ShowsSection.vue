@@ -10,7 +10,6 @@ defineProps<{
 }>();
 
 function preloadImage(url: string | undefined) {
-  console.log(url);
   if (url) {
     const img = new Image();
     img.src = url;
@@ -21,7 +20,7 @@ function preloadImage(url: string | undefined) {
 <template>
   <section class="py-5">
     <h4
-      class="mb-3 font-bold text-2xl text-zinc-100 tracking-tight leading-none"
+      class="mb-5 font-bold text-2xl text-zinc-100 tracking-tight leading-none"
     >
       {{ title }}
     </h4>

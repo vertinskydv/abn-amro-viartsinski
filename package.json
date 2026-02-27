@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "vue-tsc -b && vite build",
+    "format": "prettier . --write",
     "preview": "vite preview"
   },
   "dependencies": {

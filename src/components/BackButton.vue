@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { useRouter, useRoute, type RouteLocationNormalized } from 'vue-router';
+import { useRouter, type RouteLocationNormalized } from 'vue-router';
 
 const router = useRouter();
-const route = useRoute();
 
 function goBack() {
-  const prev = route.meta.previousRoute as RouteLocationNormalized | undefined;
+  const prev = router.currentRoute.value.meta.previousRoute as
+    | RouteLocationNormalized
+    | undefined;
   if (prev?.name) {
     router.back();
   } else {
@@ -13,23 +14,6 @@ function goBack() {
   }
 }
 </script>
-
-<!--<template>-->
-<!--  <button-->
-<!--    class="inline-flex items-center gap-3 px-1.5 py-1.5 border border-white/20 text-white font-bold rounded-lg hover:border-white/60 hover:bg-white/5 transition-all"-->
-<!--    @click="goBack"-->
-<!--  >-->
-<!--    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">-->
-<!--      <path-->
-<!--        d="M8 2L4 6L8 10"-->
-<!--        stroke="#fff"-->
-<!--        stroke-width="1.5"-->
-<!--        stroke-linecap="round"-->
-<!--      />-->
-<!--    </svg>-->
-<!--    Back-->
-<!--  </button>-->
-<!--</template>-->
 
 <template>
   <nav aria-label="Back">

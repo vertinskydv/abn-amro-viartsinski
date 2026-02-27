@@ -1,25 +1,28 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch, onMounted } from 'vue';
-import { RouterLink, useRouter, useRoute } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 
-const route = useRoute();
 const router = useRouter();
 
-const inputText = ref('');
+const inputText = ref<string | null>('');
 const isFocused = ref(false);
-let debounceTimer = null;
+let debounceTimer: number | undefined;
 
-watch(inputText, (val) => {
+watch(inputText, (inputValue: string | null) => {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {
-    handleSearchNavigation(val);
+    handleSearchNavigation(inputValue);
   }, 500);
 });
 
-function handleSearchNavigation(val) {
-  const query = val.trim();
-  if (query) {
-    router.push({ name: 'search', query: { q: query } });
+function handleSearchNavigation(inputValue: string | null) {
+  if (!inputValue) {
+    router.push({ name: 'dashboard' });
+    return;
+  }
+  const inputValueTrimmed = inputValue.trim();
+  if (inputValueTrimmed) {
+    router.push({ name: 'search', query: { q: inputValueTrimmed } });
   } else {
     router.push({ name: 'dashboard' });
   }
@@ -27,8 +30,9 @@ function handleSearchNavigation(val) {
 
 onMounted(async () => {
   await router.isReady();
-  if (route.name === 'search' && route.query.q) {
-    inputText.value = route.query.q;
+  const query = router.currentRoute.value.query.q;
+  if (router.currentRoute.value.name === 'search' && query) {
+    inputText.value = Array.isArray(query) ? (query[0] ?? null) : query;
   }
 });
 </script>
